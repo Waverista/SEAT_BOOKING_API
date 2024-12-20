@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const routeRoutes = require('./routes/routes');
 const busRoutes = require("./routes/buses");
 const tripRoutes = require("./routes/trips");
+const reservationRoutes = require("./routes/reservations");
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ app.use('/auth', authRoutes);
 app.use('/routes', routeRoutes);
 app.use("/buses", busRoutes);
 app.use("/buses", tripRoutes);
+app.use("/reservations", reservationRoutes);
 
 connectDB();
 
