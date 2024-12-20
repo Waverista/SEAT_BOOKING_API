@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 const { connectDB } = require('./config');
 const authRoutes = require('./routes/auth');
 const routeRoutes = require('./routes/routes');
+const busRoutes = require("./routes/buses");
+const tripRoutes = require("./routes/trips");
 
 dotenv.config();
 const app = express();
@@ -16,7 +18,8 @@ app.use(bodyParser.json());
 // Routes
 app.use('/auth', authRoutes);
 app.use('/routes', routeRoutes);
-
+app.use("/buses", busRoutes);
+app.use("/buses", tripRoutes);
 
 connectDB();
 
