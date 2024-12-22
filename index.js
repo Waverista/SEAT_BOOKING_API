@@ -17,6 +17,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Bus Reservation System API!");
+});
+
 // Routes
 app.use("/auth", authRoutes);
 app.use("/routes", routeRoutes);
