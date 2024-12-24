@@ -1,4 +1,6 @@
 const Route = require("../models/Route");
+const DefaultTrip = require("../models/DefaultTrip");
+
 
 const addRoute = async (req, res) => {
   const { startPoint, endPoint, distance, estimatedTime, fare } = req.body;
@@ -79,14 +81,22 @@ const getRouteById = async (req, res) => {
     if (!route) {
       return res.status(404).json({ message: "Route not found" });
     }
-    res.status(200).json({ route });
+
+    const defaultTrips = await DefaultTrip.find({ route: id }).populate("bus");
+
+    res.status(200).json({
+      route,
+      defaultTrips,
+    });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Failed to retrieve route", error: error.message });
+    res.status(500).json({
+      message: "Failed to retrieve route with default trips",
+      error: error.message,
+    });
   }
 };
+
 
 const getRoutesByStartPoint = async (req, res) => {
   const { startPoint } = req.query;
