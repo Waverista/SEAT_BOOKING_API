@@ -88,10 +88,26 @@ const getRouteById = async (req, res) => {
   }
 };
 
+const getRoutesByStartPoint = async (req, res) => {
+  const { startPoint } = req.query;
+
+  try {
+    const routes = await Route.find({ startPoint });
+    if (routes.length === 0) {
+      return res.status(404).json({ message: "No routes found for the specified start point" });
+    }
+    res.status(200).json({ routes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to retrieve routes", error: error.message });
+  }
+};
+
 module.exports = {
   addRoute,
   updateRoute,
   deleteRoute,
   getRoutes,
   getRouteById,
+  getRoutesByStartPoint
 };
