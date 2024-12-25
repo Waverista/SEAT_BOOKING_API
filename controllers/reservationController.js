@@ -243,10 +243,49 @@ const deleteReservation = async (req, res) => {
   }
 };
 
+const getOrCreateTripByDetails = async (req, res) => {
+  const { busId, defaultTripId, date, routeId } = req.query;
+
+  try {
+    if (!busId || !defaultTripId || !date | !routeId) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    let trip = await Trip.findOne({ busId, defaultTripId, date });
+
+    if (!trip) {
+      const defaultTrip = await DefaultTrip.findById(defaultTripId);
+      if (!defaultTrip) {
+        return res.status(404).json({ message: "Default trip not found" });
+      }
+
+      trip = new Trip({
+        busId,
+        defaultTripId,
+        date,
+        routeId,
+        bookedSeats: [],
+      });
+
+      await trip.save();
+    }
+
+    res.status(200).json({ trip });
+  } catch (error) {
+    console.error("Error retrieving or creating trip:", error);
+    res.status(500).json({
+      message: "Failed to retrieve or create trip",
+      error: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   createReservation,
   getReservations,
   getReservationById,
   updateReservation,
   deleteReservation,
+  getOrCreateTripByDetails
 };
