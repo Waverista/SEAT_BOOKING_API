@@ -432,3 +432,24 @@ The SEAT BOOKING API allows users to manage routes, buses, trips, and reservatio
     }
     ```
 
+##### Get Trip Details
+
+- **Method**: GET
+- **Endpoint**: `{{url}}reservations/trip?busId=<value>&defaultTripId=<value>&date=2024-12-25&routeId=<value>`
+- **Headers**:
+  - Authorization: Bearer `{{token}}`
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "trip": {
+        "_id": "676af5f2f0b00fdfe76bd12a",
+        "busId": "676afd86dc0bb2b74773f4de",
+        "defaultTripId": "676afdb5dc0bb2b74773f4e3",
+        "date": "2024-12-25T10:00:00Z",
+        "routeId": "676a357b7574a6c65c8c927e",
+        "bookedSeats": [],
+      }
+    }
+    ```
+
